@@ -1,7 +1,7 @@
 # "utf-8"
 
 
-class WriteOut(object):
+class WriteOutPTBR(object):
 
     def __init__(self):
         self.unity = {
@@ -18,7 +18,7 @@ class WriteOut(object):
             2: 'vinte', 3: 'trinta', 4: 'quarenta', 5: 'cinquenta',
             6: 'sessenta', 7: 'setenta', 8: 'oitenta', 9: 'noventa'
         }
-        
+
         self.hundred = {
             0: '', 100: 'cem', 1: 'cento', 2: 'duzentos', 3: 'trezentos', 4: 'quatrocentos', 5: 'quinhentos',
             6: 'seiscentos', 7: 'setessentos', 8: 'oitocentos', 9: 'novecentos'
@@ -41,7 +41,7 @@ class WriteOut(object):
     def make_hundred(self, hundred):
         return self.hundred[int(hundred)]
 
-    def translate_number(self, number):
+    def written_in_full(self, number):
         edit_number = str(number).split('.')
 
         integers = edit_number[0]
