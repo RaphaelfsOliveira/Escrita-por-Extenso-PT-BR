@@ -107,25 +107,29 @@ class WriteOutPTBR(object):
     def written_in_full(self, number):
         edit_number = str(number).split('.')
 
-        integers = edit_number[0]
-        decimals = edit_number[1]
+        if len(edit_number) > 1:
+            integers = edit_number[0]
+            decimals = edit_number[1]
 
-        return '{}, {}'.format(self.add_magnitude(integers),
-                               self.make_unit_and_ten(decimals)).replace('  ', ' ')
+            return '{}, {}'.format(self.add_magnitude(integers),
+                                   self.make_unit_and_ten(decimals)).replace('   ', ' ')\
+                                                                    .replace('  ', ' ')
+        integers = edit_number[0]
+        return '{}'.format(self.add_magnitude(integers)).replace('   ', ' ')\
+                                                        .replace('  ', ' ')
+
 
 if __name__ == '__main__':
     from random import randrange, uniform
     from write_ptbr import WriteOutPTBR
     w = WriteOutPTBR()
 
-    numbers = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
-    numbers = [700009.02, 800009.02, 900009.02]
+    # numbers = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
+    # numbers = [700009.02, 800009.02, 900009.02]
     numbers = range(0, 50)
 
     for number in numbers:
-        number = round(uniform(0, 91955600.99), 2)
-        # number = 1000000.45
-        # number = 11690857.0
+        number = round(uniform(0, 991955600.99), 2)
 
         print_out = '{:>120} {:<} {:<}'.format(w.written_in_full(number),
                                               ' --> ',
