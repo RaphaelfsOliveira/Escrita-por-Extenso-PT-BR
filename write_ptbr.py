@@ -41,17 +41,19 @@ class WriteOutPTBR(object):
     def make_hundred(self, hundred):
         return self.hundred[int(hundred)]
 
-    def make_decimals(self, decimals):
-        if len(decimals) > 1 and int(decimals[0]) != 1:
+    def make_unit_and_ten(self, numbers):
+        if len(numbers) > 1 and int(numbers[0]) not in [0, 1] and int(numbers[1]) != 0:
             return '{} e {}'.format(
-                self.make_ten(decimals[0], decimals[1]),
-                self.make_unity(decimals[0], decimals[1])
+                self.make_ten(numbers[0], numbers[1]),
+                self.make_unity(numbers[0], numbers[1])
             )
-        elif len(decimals) == 1:
-            return '{}'.format(self.make_ten(decimals))
+        elif len(numbers) == 1:
+            return '{}'.format(self.make_ten(numbers))
         else:
-            return '{}'.format(self.make_ten(decimals[0], decimals[1]))
-
+            return '{}{}'.format(
+                self.make_ten(numbers[0], numbers[1]),
+                self.make_unity(numbers[0], numbers[1])
+            )
 
     def make_integers(self, *args):
         pass
@@ -62,11 +64,11 @@ class WriteOutPTBR(object):
         integers = edit_number[0]
         decimals = edit_number[1]
 
-        return '{} e {} e {}, {}'.format(
+        return '{} e {}, {}'.format(
             self.make_hundred(integers[0]),
-            self.make_ten(integers[1], integers[2]),
-            self.make_unity(integers[1], integers[2]),
-            self.make_decimals(decimals)
+            # self.make_ten(integers[1], integers[2]),
+            self.make_unit_and_ten((integers[1], integers[2])),
+            self.make_unit_and_ten(decimals)
         )
 
 if __name__ == '__main__':
@@ -74,8 +76,9 @@ if __name__ == '__main__':
     w = WriteOutPTBR()
 
     unit = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
+    unit += range(10, 50)
 
     for n in unit:
-        number = '200.{}'.format(n)
-        # print(number, type(number), float(number))
-        print(w.written_in_full(float(number)))
+        number = '2{}.{}'.format(n, n)
+        # print(w.written_in_full(float(number)))
+        print(w.written_in_full(float(number)), ' --> ', number)
