@@ -84,7 +84,7 @@ class WriteOutPTBR(object):
 
     def add_magnitude(self, integers):
         length = int(len(integers))
-        
+
         if length <= 3:
             return '{}'.format(self.make_unit_ten_hundred(integers))
 
@@ -117,21 +117,3 @@ class WriteOutPTBR(object):
         integers = edit_number[0]
         return '{}'.format(self.add_magnitude(integers)).replace('   ', ' ')\
                                                         .replace('  ', ' ')
-
-
-if __name__ == '__main__':
-    from random import randrange, uniform
-    from write_ptbr import WriteOutPTBR
-    w = WriteOutPTBR()
-
-    # numbers = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
-    # numbers = [700009.02, 800009.02, 900009.02]
-    numbers = range(0, 50)
-
-    for number in numbers:
-        number = round(uniform(0, 991955600.99), 2)
-
-        print_out = '{:>120} {:<} {:<}'.format(w.written_in_full(number),
-                                              ' --> ',
-                                              number)
-        print(print_out)
