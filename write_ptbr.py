@@ -88,13 +88,18 @@ class WriteOutPTBR(object):
         )
 
 if __name__ == '__main__':
+    from random import randrange, uniform
     from write_ptbr import WriteOutPTBR
     w = WriteOutPTBR()
 
     numbers = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
-    numbers += range(0, 300)
-
+    
     for n in numbers:
-        number = '{}'.format(n)
+        number = round(uniform(2.5, 399.99), 2)
 
-        print(w.written_in_full(float(number)), ' --> ', number)
+        print_out = '{:>50} {:<} {:<}'.format(
+            w.written_in_full(float(number)),
+            ' --> ',
+            number
+        )
+        print(print_out)
