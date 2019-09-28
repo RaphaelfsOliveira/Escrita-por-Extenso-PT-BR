@@ -28,7 +28,7 @@ class WriteOutPTBR(object):
             'mil', 'milhão', 'milhões'
         }
 
-    def make_unity(self, ten, unity):
+    def make_unity(self, unity, ten=0):
         if int(ten) == 1:
             return ''
         return self.unity[int(unity)]
@@ -45,18 +45,36 @@ class WriteOutPTBR(object):
         if len(numbers) > 1 and int(numbers[0]) not in [0, 1] and int(numbers[1]) != 0:
             return '{} e {}'.format(
                 self.make_ten(numbers[0], numbers[1]),
-                self.make_unity(numbers[0], numbers[1])
+                self.make_unity(ten=numbers[0], unity=numbers[1])
             )
         elif len(numbers) == 1:
             return '{}'.format(self.make_ten(numbers))
         else:
             return '{}{}'.format(
                 self.make_ten(numbers[0], numbers[1]),
-                self.make_unity(numbers[0], numbers[1])
+                self.make_unity(ten=numbers[0], unity=numbers[1])
             )
 
-    def make_integers(self, *args):
-        pass
+    def make_unit_ten_hundred(self, integers):
+        CEM = 100
+        length = int(len(integers))
+
+        if length == 3:
+            if int(integers) == CEM:
+                return '{}'.format(self.hundred[CEM])
+
+            return '{} e {}'.format(
+                self.make_hundred(integers[0]),
+                self.make_unit_and_ten([integers[1], integers[2]])
+            )
+        elif length == 2:
+            return '{}'.format(
+                self.make_unit_and_ten([integers[0], integers[1]])
+            )
+        elif length == 1:
+            return '{}'.format(
+                self.make_unity(unity=integers)
+            )
 
     def written_in_full(self, number):
         edit_number = str(number).split('.')
@@ -64,10 +82,8 @@ class WriteOutPTBR(object):
         integers = edit_number[0]
         decimals = edit_number[1]
 
-        return '{} e {}, {}'.format(
-            self.make_hundred(integers[0]),
-            # self.make_ten(integers[1], integers[2]),
-            self.make_unit_and_ten((integers[1], integers[2])),
+        return '{}, {}'.format(
+            self.make_unit_ten_hundred(integers),
             self.make_unit_and_ten(decimals)
         )
 
@@ -75,10 +91,10 @@ if __name__ == '__main__':
     from write_ptbr import WriteOutPTBR
     w = WriteOutPTBR()
 
-    unit = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
-    unit += range(10, 50)
+    numbers = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
+    numbers += range(0, 300)
 
-    for n in unit:
-        number = '2{}.{}'.format(n, n)
-        # print(w.written_in_full(float(number)))
+    for n in numbers:
+        number = '{}'.format(n)
+
         print(w.written_in_full(float(number)), ' --> ', number)
