@@ -5,8 +5,8 @@ class WriteOutPTBR(object):
 
     def __init__(self):
         self.unity = {
-            0: '', 1: 'um', 2: 'dois', 3: 'três', 4: 'quatro', 5: 'cinco',
-            6: 'seis', 7: 'sete', 8: 'oito',9: 'nove'
+            0: '', 1: 'um', 2: 'dois', 3: 'três', 4: 'quatro',
+            5: 'cinco', 6: 'seis', 7: 'sete', 8: 'oito',9: 'nove'
         }
 
         self.ten = {
@@ -20,11 +20,11 @@ class WriteOutPTBR(object):
         }
 
         self.hundred = {
-            0: '', 100: 'cem', 1: 'cento', 2: 'duzentos', 3: 'trezentos', 4: 'quatrocentos', 5: 'quinhentos',
-            6: 'seiscentos', 7: 'setessentos', 8: 'oitocentos', 9: 'novecentos'
+            0: '', 100: 'cem', 1: 'cento', 2: 'duzentos', 3: 'trezentos', 4: 'quatrocentos',
+            5: 'quinhentos', 6: 'seiscentos', 7: 'setessentos', 8: 'oitocentos', 9: 'novecentos'
         }
 
-        self.v = {
+        self.magnitude = {
             'mil', 'milhão', 'milhões'
         }
 
@@ -43,17 +43,14 @@ class WriteOutPTBR(object):
 
     def make_unit_and_ten(self, numbers):
         if len(numbers) > 1 and int(numbers[0]) not in [0, 1] and int(numbers[1]) != 0:
-            return '{} e {}'.format(
-                self.make_ten(numbers[0], numbers[1]),
-                self.make_unity(ten=numbers[0], unity=numbers[1])
-            )
+
+            return '{} e {}'.format(self.make_ten(numbers[0], numbers[1]),
+                                    self.make_unity(ten=numbers[0], unity=numbers[1]))
         elif len(numbers) == 1:
             return '{}'.format(self.make_ten(numbers))
         else:
-            return '{}{}'.format(
-                self.make_ten(numbers[0], numbers[1]),
-                self.make_unity(ten=numbers[0], unity=numbers[1])
-            )
+            return '{}{}'.format(self.make_ten(numbers[0], numbers[1]),
+                                 self.make_unity(ten=numbers[0], unity=numbers[1]))
 
     def make_unit_ten_hundred(self, integers):
         CEM = 100
@@ -63,18 +60,12 @@ class WriteOutPTBR(object):
             if int(integers) == CEM:
                 return '{}'.format(self.hundred[CEM])
 
-            return '{} e {}'.format(
-                self.make_hundred(integers[0]),
-                self.make_unit_and_ten([integers[1], integers[2]])
-            )
+            return '{} e {}'.format(self.make_hundred(integers[0]),
+                                    self.make_unit_and_ten([integers[1], integers[2]]))
         elif length == 2:
-            return '{}'.format(
-                self.make_unit_and_ten([integers[0], integers[1]])
-            )
+            return '{}'.format(self.make_unit_and_ten([integers[0], integers[1]]))
         elif length == 1:
-            return '{}'.format(
-                self.make_unity(unity=integers)
-            )
+            return '{}'.format(self.make_unity(unity=integers))
 
     def written_in_full(self, number):
         edit_number = str(number).split('.')
@@ -82,10 +73,8 @@ class WriteOutPTBR(object):
         integers = edit_number[0]
         decimals = edit_number[1]
 
-        return '{}, {}'.format(
-            self.make_unit_ten_hundred(integers),
-            self.make_unit_and_ten(decimals)
-        )
+        return '{}, {}'.format(self.make_unit_ten_hundred(integers),
+                               self.make_unit_and_ten(decimals))
 
 if __name__ == '__main__':
     from random import randrange, uniform
@@ -93,13 +82,11 @@ if __name__ == '__main__':
     w = WriteOutPTBR()
 
     numbers = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
-    
-    for n in numbers:
+
+    for n in range(0, 50):
         number = round(uniform(2.5, 399.99), 2)
 
-        print_out = '{:>50} {:<} {:<}'.format(
-            w.written_in_full(float(number)),
-            ' --> ',
-            number
-        )
+        print_out = '{:>50} {:<} {:<}'.format(w.written_in_full(number),
+                                              ' --> ',
+                                              number)
         print(print_out)
