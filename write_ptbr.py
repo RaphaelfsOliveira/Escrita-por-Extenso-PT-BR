@@ -41,23 +41,41 @@ class WriteOutPTBR(object):
     def make_hundred(self, hundred):
         return self.hundred[int(hundred)]
 
+    def make_decimals(self, decimals):
+        if len(decimals) > 1 and int(decimals[0]) != 1:
+            return '{} e {}'.format(
+                self.make_ten(decimals[0], decimals[1]),
+                self.make_unity(decimals[0], decimals[1])
+            )
+        elif len(decimals) == 1:
+            return '{}'.format(self.make_ten(decimals))
+        else:
+            return '{}'.format(self.make_ten(decimals[0], decimals[1]))
+
+
+    def make_integers(self, *args):
+        pass
+
     def written_in_full(self, number):
         edit_number = str(number).split('.')
 
         integers = edit_number[0]
         decimals = edit_number[1]
 
-        if len(decimals) > 1:
-            return '{} e {} e {}, e {} e {}'.format(
-                self.make_hundred(integers[0]),
-                self.make_ten(integers[1], integers[2]),
-                self.make_unity(integers[1], integers[2]),
-                self.make_ten(decimals[0], decimals[1]),
-                self.make_unity(decimals[0], decimals[1]),
-            )
-        return '{} e {} e {}, e {}'.format(
+        return '{} e {} e {}, {}'.format(
             self.make_hundred(integers[0]),
             self.make_ten(integers[1], integers[2]),
             self.make_unity(integers[1], integers[2]),
-            self.make_ten(decimals),
+            self.make_decimals(decimals)
         )
+
+if __name__ == '__main__':
+    from write_ptbr import WriteOutPTBR
+    w = WriteOutPTBR()
+
+    unit = ['01', '02', '03', '04', '05', '06', '07', '08', '09']
+
+    for n in unit:
+        number = '200.{}'.format(n)
+        # print(number, type(number), float(number))
+        print(w.written_in_full(float(number)))
