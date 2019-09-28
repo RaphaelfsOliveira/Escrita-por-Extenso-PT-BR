@@ -18,15 +18,10 @@ class WriteOut(object):
             2: 'vinte', 3: 'trinta', 4: 'quarenta', 5: 'cinquenta',
             6: 'sessenta', 7: 'setenta', 8: 'oitenta', 9: 'noventa'
         }
-
+        
         self.hundred = {
             0: '', 100: 'cem', 1: 'cento', 2: 'duzentos', 3: 'trezentos', 4: 'quatrocentos', 5: 'quinhentos',
             6: 'seiscentos', 7: 'setessentos', 8: 'oitocentos', 9: 'novecentos'
-        }
-
-        self.ten_10 = {
-            0: 'dez', 1: 'onze', 2: 'doze', 3: 'treze', 4: 'catorze', 5: 'quinze',
-            6: 'desesseis', 7: 'desessete', 8: 'dezoito', 9: 'dezenove'
         }
 
         self.v = {
