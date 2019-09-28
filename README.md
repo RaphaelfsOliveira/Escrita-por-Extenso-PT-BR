@@ -2,7 +2,7 @@
 **Descrição**
 - Algoritimo para traduzir numeros com até duas casas decimais e nove inteiras para escrita por extenso
 
-Considerando que voce já tem instalado na maquina os softwares abaixo
+#### Considerando que voce já tem instalado na maquina os softwares abaixo
 
 - Python 3.5
 
@@ -18,12 +18,11 @@ Primeiro entrar na pasta em que foi feito o Download
 
 `cd written_in_full`
 
-#### Testes
+
+### Testes
 
 Para rodar alguns testes que fiz, executar no terminal o comando abaixo,
 os testes consistem em passar para a instancia do Objeto alguns numeros aleatórios
 para o algoritimo resolver.
 
-executar no terminal o comando:
-
-`python3 write_ptbr.py`
+executar no terminal o comando: `python3 tests.py`
