@@ -62,7 +62,12 @@ class WriteOutPTBR(object):
         if length == 3:
             if int(integers) == CEM:
                 return '{}'.format(self.hundred[CEM])
+
             if int(integers[1]) == 0 and int(integers[2]) == 0:
+                return '{} {}'.format(self.make_hundred(integers[0]),
+                                      self.make_unit_and_ten([integers[1], integers[2]]))
+
+            if int(integers[0]) == 0 and int(integers[1]) != 0 and int(integers[2]) != 0:
                 return '{} {}'.format(self.make_hundred(integers[0]),
                                       self.make_unit_and_ten([integers[1], integers[2]]))
 
@@ -99,8 +104,8 @@ class WriteOutPTBR(object):
             hundred = integers[length - 3: length]
             thousand = integers[0:length - 3]
 
-            return '{} e {}'.format(self.add_thousand(thousand),
-                                    self.make_unit_ten_hundred(hundred))
+            return '{} {}'.format(self.add_thousand(thousand),
+                                  self.make_unit_ten_hundred(hundred))
 
         if length <= 9:
             hundred = integers[length - 3: length]
