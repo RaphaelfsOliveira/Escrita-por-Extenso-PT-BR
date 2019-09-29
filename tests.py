@@ -10,7 +10,10 @@ if __name__ == '__main__':
     for number in numbers:
         number = round(uniform(0, 991955600.99), 2)
 
-        print_out = '{:>120} {:<} {:<}'.format(w.written_in_full(number),
+        # number = 1.00
+        # number = 1000.54
+
+        print_out = '{:>150} {:<} {:<}'.format(w.written_in_full(number),
                                               ' --> ',
                                               number)
         print(print_out)

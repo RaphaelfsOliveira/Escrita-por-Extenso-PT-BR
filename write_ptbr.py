@@ -28,6 +28,10 @@ class WriteOutPTBR(object):
             0: 'mil', 1: 'milhão', 2: 'milhões'
         }
 
+        self.real_cents = {
+            1: 'real', 2: 'reais', 3: 'centavo'
+        }
+
     def make_unity(self, unity, ten=0):
         if int(ten) == 1:
             return ''
@@ -60,7 +64,7 @@ class WriteOutPTBR(object):
                 return '{}'.format(self.hundred[CEM])
             if int(integers[1]) == 0 and int(integers[2]) == 0:
                 return '{} {}'.format(self.make_hundred(integers[0]),
-                                     self.make_unit_and_ten([integers[1], integers[2]]))
+                                      self.make_unit_and_ten([integers[1], integers[2]]))
 
             return '{} e {}'.format(self.make_hundred(integers[0]),
                                     self.make_unit_and_ten([integers[1], integers[2]]))
@@ -71,7 +75,10 @@ class WriteOutPTBR(object):
 
     def add_thousand(self, thousand):
         if int(thousand):
-            return '{} {} '.format(self.make_unit_ten_hundred(thousand),
+            number = self.make_unit_ten_hundred(thousand)
+            if int(thousand[-1]) == 1 and int(len(thousand)) == 1: number = ''
+
+            return '{} {} '.format(number,
                                    self.magnitude[0])
         return ''
 
@@ -92,8 +99,8 @@ class WriteOutPTBR(object):
             hundred = integers[length - 3: length]
             thousand = integers[0:length - 3]
 
-            return '{} {}'.format(self.add_thousand(thousand),
-                                  self.make_unit_ten_hundred(hundred))
+            return '{} e {}'.format(self.add_thousand(thousand),
+                                    self.make_unit_ten_hundred(hundred))
 
         if length <= 9:
             hundred = integers[length - 3: length]
@@ -107,13 +114,33 @@ class WriteOutPTBR(object):
     def written_in_full(self, number):
         edit_number = str(number).split('.')
 
+        real = self.real_cents[2]
+        cent = '{}s'.format(self.real_cents[3])
+        ONE_CENT = '01'
+
         if len(edit_number) > 1:
             integers = edit_number[0]
             decimals = edit_number[1]
+            E = 'e'
 
-            return '{}, {}'.format(self.add_magnitude(integers),
-                                   self.make_unit_and_ten(decimals)).replace('   ', ' ')\
-                                                                    .replace('  ', ' ')
+            if int(integers[-1]) == 1 and int(len(integers)) == 1: real = self.real_cents[1]
+            if len(decimals) > 1 and decimals == ONE_CENT:
+                cent = self.real_cents[3]
+            elif not bool(int(decimals)):
+                cent = ''
+                E = ''
+
+            return '{} {real} {e} {} {cent}'.format(self.add_magnitude(integers),
+                                                    self.make_unit_and_ten(decimals),
+                                                    e=E,
+                                                    real=real,
+                                                    cent=cent).replace('   ', ' ')\
+                                                              .replace('  ', ' ')
+
         integers = edit_number[0]
-        return '{}'.format(self.add_magnitude(integers)).replace('   ', ' ')\
-                                                        .replace('  ', ' ')
+
+        if int(integers[-1]) == 1: real = self.real_cents[1]
+
+        return '{} {real}'.format(self.add_magnitude(integers),
+                                  real=real).replace('   ', ' ')\
+                                            .replace('  ', ' ')
